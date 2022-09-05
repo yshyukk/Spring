@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yedam.java.emp.mapper.EmpMapper">
+	<!-- resultType : list로 반환해도 EmpVO로 ( 알아서 리스트로 만들어줌 )-->
+	
+	<!-- 전체조회 -->
+	<select id="getEmpList" resultType="EmpVO">
+		SELECT *
+		FROM employees
+		<where>
+			<if test="departmentId != null">
+				department_id = #{departmentId} AND
+			</if>
+			<if test="managerId != null">
+				manager_id = #{managerId} AND
+			</if>
+			<if test="jobId != null">
+			job_id = #{jobId};
+			</if>
+		</where>
+		
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="getEmp" parameterType="EmpVO" resultType="EmpVO">
+		SELECT *
+		FROM employees			  
+		WHERE employee_id = #{employeeId}
+	</select>
+	
+	<!-- 등록 -->
+ 	<insert id="insertEmp" parameterType="EmpVO">
+ 	<!-- 
+ 		insert, update만
+ 		<selectKey> -> PK검색 , order속성 : insert or update 전에 할껀지 후에 할껀지 결정
+ 		keyProperty : employeeID값을 parameterType에 담겠다 
+ 	-->
+ 	<selectKey keyProperty="employeeId" order="BEFORE" resultType="String">
+ 		SELECT MAX(employee_id)+1 FROM employees
+ 	</selectKey>	
+ 		INSERT into employees 
+ 			   (employee_id, first_name, last_name, email, hire_date, salary, job_id)
+		VALUES (#{employeeId}, #{firstName}, #{lastName}, #{email}, sysdate, #{salary}, #{jobId})
+	</insert>
+	
+	<!-- 연봉 10% 인상 -->
+	<update id="updateSalary">
+		UPDATE employees
+		SET salary = salary*1.1
+		WHERE employee_id = #{employeeId}
+	
+	</update>
+	
+	<update id="updateInfo">
+		UPDATE employees
+		SET first_name = #{firstName},
+			last_name = #{lastName},
+			email = #{email}
+		WHERE employee_id = #{employeeId}
+	</update>
+	
+	<!-- Dynamic SQL -->
+	<update id="updateRandomInfo" parameterType="EmpVO">
+		UPDATE employees
+		<!-- Dynamic SQL 이라고 판단하기 시작 -->
+		<set>
+			<if test="firstName != null">
+				first_name = #{firstName},
+			</if>
+			<if test="last_name != null">
+				last_name = #{lastName},
+			</if>
+			<if test="email != null">
+				email = #{email}
+			</if>
+		</set>
+		WHERE employee_id = #{employeeId}
+	</update>
+	
+	<delete id="deleteEmpInfo" parameterType="Integer">
+		DELETE FROM employees
+		WHERE employee_id = #{employeeId}	
+	</delete>
+</mapper>

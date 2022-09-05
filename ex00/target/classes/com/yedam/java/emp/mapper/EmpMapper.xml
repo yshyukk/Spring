@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.java.emp.mapper.EmpMapper">
+	<select id="getEmp" parameterType="com.yedam.java.emp.service.EmpVO" resultType="com.yedam.java.emp.service.EmpVO">
+		SELECT employee_id,
+				first_name,
+				last_name,
+				email,
+				hire_date,
+				job_id,
+				salary
+		FROM employees
+		WHERE employee_id = #{employeeId}
+	</select>
+</mapper>
