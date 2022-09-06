@@ -1,7 +1,5 @@
 package com.yedam.java.emp.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +23,7 @@ public class EmpController {
 	public String getEmpList(Model model) {
 		//model.addAttribute("view에서 사용될 이름", 실제값) <== 값 받아오기
 		model.addAttribute("empList", empService.getEmpList());
+		
 		return "emp/empList";		
 	}
 	
@@ -44,14 +43,25 @@ public class EmpController {
 	@GetMapping("/deleteInfo/{employeeId}")
 	public String deleteEmpInfo(@PathVariable String employeeId) {
 		EmpVO empVO = new EmpVO();
-		empVO.setEmployeeId(employeeId);
 		empService.deleteEmp(empVO);
 		return "redirect:/emp/allList";
 	}
+//	@GetMapping("/insertForm")
+//	public String insertForm(EmpVO empVO) {
+//		return "emp/inputForm";
+//		
+//	}
+	//form으로 이동만 하는 애
+	//GetMapping은 조회기능만 단순히 데이터를 가져올때만
 	@GetMapping("/insertForm")
-	public String insertForm(EmpVO empVO) {
-		return "emp/inputForm";
-		
+	public String insertEmpForm() {
+		return "emp/empInsert";
+	}
+	
+	@PostMapping("/insertInfo")
+	public String insertEmp(EmpVO empVO) {
+		empService.insertEmp(empVO);
+		return "redirect:allList";
 	}
 	
 }

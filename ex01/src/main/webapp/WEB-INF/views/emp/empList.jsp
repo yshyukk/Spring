@@ -14,6 +14,7 @@
 </head>
 <body>
 	<!-- empList출력하기 -->
+	<button type="button" onclick="location.href='insertForm'">등록</button>
 	<table>
 		<thead>
 			<tr>
@@ -41,7 +42,7 @@
 		</c:forEach>
 		</tbody>		
 	</table>
-	<button type="button" onclick="location.href='insertFrom'">추가</button>
+	<button type="button" onclick="location.href='insertForm'">추가</button>
 	
 	<script>
 		function deleteInfo(id, event){

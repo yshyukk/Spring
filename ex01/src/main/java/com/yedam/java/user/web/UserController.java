@@ -59,7 +59,7 @@ public class UserController {
 	//list를 불러올때는 list[0].name처럼 작성
 	@RequestMapping("/userList")
 	public String listProcess(UserListVO userListVO) {
-		List<UserVO> userList = userListVO.getList();
+		List<UserVO> userList = userListVO.getName();
 		for(UserVO vo : userList) {
 			System.out.println(vo.getName() + "," + vo.getAge());
 		}		

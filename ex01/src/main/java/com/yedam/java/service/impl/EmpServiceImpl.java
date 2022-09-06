@@ -30,7 +30,7 @@ public class EmpServiceImpl implements EmpService {
 		//등록
 		@Override
 		public void insertEmp(EmpVO empVO) {
-			
+			empMapper.insertEmp(empVO);
 		}
 		//수정
 		public void updateEmp(EmpVO empVO) {

@@ -13,7 +13,7 @@
 				package : container에 등록된 bean을 이용
 		-->		
 		<package name="com.yedam.java.emp.service"/>
-		
+		<package name="com.yedam.java.board.service"/>
 	</typeAliases>
 	<typeHandlers>
 	<!-- java.sql.Timestamp를 java.util.Date 형으로 변환 -->

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.java.board.mapper.BoardMapper">
+	
+	<!-- 입력될 게시글 번호를 조회 -->
+	<!-- resultType이 객체라면
+			함수에서 필드값 가져올때는 as(=별칭) 필드명 을 이용해서 가져오기 
+	-->
+	<select id="getBoardNo" resultType="BoardVO">
+		SELECT NVL(MAX(bno), 0) + 1 as bno FROM board
+	</select>
+	<!-- 
+		< 전체조회 > 
+		- id에 Mapper(interface)에 해당 메서드이름
+		- select는 resultType필수
+	-->
+	<select id="getBoardList" resultType="BoardVO">
+		SELECT * FROM board ORDER BY bno
+	</select>
+	
+	<!-- 단건조회 -->
+		<!-- 넘겨줄 값이 있으니까 parameterType필요 -->
+	<select id="getBoardInfo" parameterType="BoardVO" resultType="BoardVO">
+		SELECT bno,
+			   title,
+			   contents,
+			   writer,
+			   regdate,
+			   updatedate,
+			   image
+		FROM   board
+		<where>
+		<!-- query문 안에서 필드값 가져올때는 #-->
+			<if test = "writer != null and !writer.equals('')">
+				writer = #{ writer } AND
+			</if>
+			<if  test="bno > 0">
+				bno = #{ bno }
+			</if>
+		</where>
+	</select>
+	
+	<!-- 등록 -->
+		<!-- insert, upadate, delete는 resultType 필요 x => 미리 정해져있기때문에 -->
+
+		<!-- 
+		selectKey를 이용해서 다중 컬럼 값을 가지고 오는 경우 (MyBatis 3.2.6버전 이상)
+			<selectKey keyColumn="employee_id", first_name" keyProperty="employee_id, firstName" resultType="hashmap" order="BEFORE">
+				SELECT employee_id, first_nanme FROM employees WHERE employee_id = #{employeeId}
+			</selectKey>
+		 -->
+	<insert id="insertBoard" parameterType="BoardVO">
+		<!--
+			 <selectKey keyProperty="bno" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(bno), 0) + 1 
+			FROM board
+		</selectKey> 
+		-->
+		INSERT INTO board (
+						  bno
+						  ,title
+						  ,contents
+						  ,writer
+						  <if test="regdate !=null">
+						  ,regdate
+						  </if>
+						  <if test="updatedate !=null">
+						  ,updatedate
+						  </if>
+						  <if test="image !=null">
+						  ,image
+						  </if>
+						)
+				VALUES	(
+						#{bno}
+						,#{title}
+						,#{contents}
+						,#{writer}
+						<if test="regdate != null">
+						,#{regdate}
+						</if>
+						<if test="updatedate !=null">
+						,#{updatedate}
+						</if>
+						<if test="image !=null">
+						,#{image}
+						</if>
+				)				
+	</insert>
+	
+	<!-- 수정 ( selectKey는 isnert와 update만)-->
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE board
+		<!-- 반드시 존재해야 하는 컬럼을 가장 밑에 -->
+		<set>
+			<if test="title != null and !title.equals('')">
+			title = #{title},
+			</if>
+			<if test="contents != null and !contents.equals('')">
+			contents = #{contents},
+			</if>
+			<if test="image != null and !image.equals('')">
+			image = #{image},
+			</if>
+			<if test="updatedate != null">
+			updatedate = #{updatedate}
+			</if>
+			<if test="updatedate == null">
+			updatedate = sysdate
+			</if>
+		</set>
+		WHERE bno = #{bno}
+	</update>
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="Integer">
+		DELETE FROM board
+			   WHERE bno = #{bno}
+			   <!-- @Param값이 바로 들어옴, @param값이 없으면 넘어오는 매개변수값으로 해도 됨 -->
+	</delete>
+	
+</mapper>
