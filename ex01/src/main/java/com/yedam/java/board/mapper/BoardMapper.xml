@@ -88,6 +88,8 @@
 				)				
 	</insert>
 	
+	
+	<!-- selectKey : 어떤 키값을 가져와서 증가시켜서 입력하거나 혹은 입력후에 증가된 키값을 가져올 필요가 있을 때 -->
 	<!-- 수정 ( selectKey는 isnert와 update만)-->
 	<update id="updateBoard" parameterType="BoardVO">
 		UPDATE board

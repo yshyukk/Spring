@@ -32,6 +32,7 @@ public class BoardTest {
 		
 		int result = service.insertBoard(info);
 		
+			//assertEquals(x,y) : x와 y가 같으면 통과
 		assertEquals(result, 1);
 		
 		//단건조회
