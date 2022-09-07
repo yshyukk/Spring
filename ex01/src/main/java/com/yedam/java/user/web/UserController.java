@@ -55,7 +55,6 @@ public class UserController {
 		return "";
 	}
 	
-	
 	//list를 불러올때는 list[0].name처럼 작성
 	@RequestMapping("/userList")
 	public String listProcess(UserListVO userListVO) {

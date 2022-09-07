@@ -12,6 +12,7 @@
 		<org.springframework-version>5.3.16</org.springframework-version>
 		<org.aspectj-version>1.9.0</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.apache.tiles-version>3.0.8</org.apache.tiles-version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -185,9 +186,20 @@
 		    <version>2.13.3</version>
 		</dependency>
 		
-	
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles.wso2/tiles-jsp -->
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-extras</artifactId>
+			<version>${org.apache.tiles-version}</version>
+		</dependency>
 		
-		        
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-core</artifactId>
+		    <version>${org.apache.tiles-version}</version>
+		</dependency>		
+		
 	</dependencies>
     <build>
         <plugins>
